@@ -1,5 +1,5 @@
 const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
-const HtmlWebpackPligin = require ('html-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserWebpackPlugin = require ('terser-webpack-plugin');
 const CssMinimizerWebpackPlugin = require ('css-minimizer-webpack-plugin')
 
@@ -15,7 +15,10 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin(),
-        new HtmlWebpackPligin(),
+        new HtmlWebpackPlugin({
+            template: './src/index.pug',
+            filename: "index.html"
+        }),
         new  TerserWebpackPlugin(),
         new CssMinimizerWebpackPlugin()
     ],
@@ -24,7 +27,15 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [ MiniCssExtractPlugin.loader, 'css-loader'],
+            },
+            {
+                test: /\.pug$/,
+                loader: 'pug-loader',
+                options: {
+                    pretty: true
+                }//“pretty: true” — просим pug-loader расставить отступы и переносы строк (иначе получим весь html-код в одну строку).
             }
+
         ]
     }
 }
