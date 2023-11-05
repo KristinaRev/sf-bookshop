@@ -1,1 +1,1 @@
-document.write("Hello, webpack!");
+(()=>{"use strict";document.write("Hello, webpack!")})();
