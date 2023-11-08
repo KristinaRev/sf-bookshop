@@ -7,7 +7,7 @@ module.exports = {
     mode: 'development',
     entry: './src/index.js',
     output: {
-        filename: 'main.js'
+        filename: 'main.js',
     },
     optimization: {
         minimize: true,
@@ -37,5 +37,10 @@ module.exports = {
             }
 
         ]
-    }
+    },
+    devtool: 'inline-source-map',
+    devServer: {
+        host: process.env.DEV_SERVER_HOST,
+        port: process.env.DEV_SERVER_PORT
+    },
 }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "serve": "webpack-dev-server --mode development --progress --open",
+    "serve": "npx webpack-dev-server",
     "dev": "parcel index.html",
     "build": "webpack"
   },
