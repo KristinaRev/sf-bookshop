@@ -1,0 +1,20 @@
+@use '../abstracts/variables' as *
+@use '../abstracts/mixins' as *
+
+.shop-bag
+  position: relative
+
+  &__counter
+    position: absolute
+    +font(10px, 12px, 500)
+    color: $white
+    background: $red
+    width: 13px
+    height: 13px
+    border-radius: 50%
+    text-align: center
+    justify-content: center
+    align-items: center
+    display: flex
+    top: 8px
+    left: 4px

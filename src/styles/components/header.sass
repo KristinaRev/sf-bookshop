@@ -1,0 +1,37 @@
+@use '../abstracts/variables' as *
+@use '../abstracts/mixins' as *
+
+.header
+  padding: 47px 0 40px
+  background: #ffff
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  z-index: 5
+
+  .container
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+  &__logo
+    +font(24px, 29px, 700)
+    color: $black
+
+  &__links
+    display: flex
+    gap: 40px
+    align-items: center
+
+    .link
+      color: $gray
+      +font(10px, 12px, 700)
+
+      &.active
+        +font(10px, 12px, 900)
+        color: $black
+
+
+
+
