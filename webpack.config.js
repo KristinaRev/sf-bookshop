@@ -1,7 +1,13 @@
+const fs = require('fs')
+
 const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserWebpackPlugin = require ('terser-webpack-plugin');
 const CssMinimizerWebpackPlugin = require ('css-minimizer-webpack-plugin')
+const path = require("path");
+
+const pagesDir = path.resolve(__dirname, 'src/templates/pages')
+const pages = fs.readdirSync(pagesDir).filter(fileName => fileName.endsWith('.pug'))
 
 module.exports = {
     mode: 'development',
@@ -15,9 +21,11 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin(),
-        new HtmlWebpackPlugin({
-            template: './src/index.pug',
-            filename: "index.html"
+        ...pages.map(page => {
+            return new HtmlWebpackPlugin ({
+                template: `${pagesDir}/${page}`,
+                filename: `./${page.replace(/\.pug/, '.html')}`
+            })
         }),
         new  TerserWebpackPlugin(),
         new CssMinimizerWebpackPlugin()
