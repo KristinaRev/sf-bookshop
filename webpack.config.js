@@ -15,6 +15,11 @@ module.exports = {
     output: {
         filename: 'main.js',
     },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src'),
+        }
+    },
     optimization: {
         minimize: true,
         minimizer: [new TerserWebpackPlugin(), new CssMinimizerWebpackPlugin()]
@@ -51,7 +56,17 @@ module.exports = {
                 test: /\.js$/,
                 exclude: '/node_modules/',
                 use: 'eslint-loader'
-            }
+            },
+            {
+                test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|svg|mp4)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        esModule: false,
+                        name: '[path][name].[ext]'
+                    }
+                }
+            },
 
         ]
     },
