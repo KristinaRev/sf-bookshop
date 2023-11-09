@@ -34,6 +34,10 @@ module.exports = {
                 options: {
                     pretty: true
                 }//“pretty: true” — просим pug-loader расставить отступы и переносы строк (иначе получим весь html-код в одну строку).
+            }, {
+                test: /\.js$/,
+                exclude: '/node_modules/',
+                use: 'eslint-loader'
             }
 
         ]
