@@ -1,3 +1,3 @@
 import "./styles/index.sass";
 
-import './scripts/main'
+import "./scripts/main.js";
