@@ -1,0 +1,29 @@
+@use '../abstracts/variables' as *
+@use '../abstracts/mixins' as *
+
+.card
+  box-shadow: 0 6px 59px 0 rgba(53, 49, 84, 0.08)
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+  align-items: flex-start
+  gap: 4px
+  padding: 20px
+
+  &_purple
+    background: $purple
+    width: 149px
+    height: 204px
+
+  &_pink
+    background: $pink
+    width: 158px
+    height: 273px
+    padding-right: 54px
+
+  &__text
+    +font(18px, 22px, 700)
+    color: $black
+    text-transform: uppercase
+
+

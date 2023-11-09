@@ -1,0 +1,10 @@
+@use '../abstracts/variables' as *
+@use '../abstracts/mixins' as *
+
+.link
+  color: $gray
+  +font(10px, 12px, 700)
+
+  &.active
+    +font(10px, 12px, 900)
+    color: $black
