@@ -1,0 +1,16 @@
+@use './variables' as *
+
+=ff($_family, $_name, $_weight, $_style: normal)
+  font-family: '#{$_family}'
+  src: local('#{$_name}')
+  src: url('../assets/fonts/#{$_name}.woff2') format('woff2'), url('../assets/fonts/#{$_name}.woff') format('woff')
+  font-weight: $_weight
+  font-style: $_style
+  font-display: swap
+
+=font($_fontSize, $_lineHeight, $_fontWeight: 350, $_fontFamily: $font)
+  font: $_fontWeight #{$_fontSize}/#{$_lineHeight} $_fontFamily
+
+=screen($_size)
+  @media only screen and (max-width: #{$_size}px)
+    @content
