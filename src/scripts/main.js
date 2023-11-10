@@ -26,6 +26,24 @@ window.addEventListener('load', () => {
 
             .then(data => {
                 console.log(data)
+
+                const booksContainer = document.querySelector('.shop__container')
+
+                data.items.forEach(book => {
+
+                    const bookContainer = Object.assign(document.createElement('div'),  {
+                        className: 'book'
+                    })
+                    const createElem = (tag, text, className) => Object.assign(document.createElement(tag), {
+                        textContent: text,
+                        className: className
+                    })
+
+                    bookContainer.appendChild(createElem('h3', book.volumeInfo.title, 'book__title'))
+
+                    booksContainer.appendChild(bookContainer)
+
+                })
             })
             .catch(error => console.error('Ошибка при запросе:', error))
 
