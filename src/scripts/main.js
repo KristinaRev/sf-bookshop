@@ -21,6 +21,15 @@ window.addEventListener('load', () => {
 
         const booksApi = 'https://www.googleapis.com/books/v1/volumes?q="subject:Business"&key=AIzaSyBJze3ZHSv24m5POOMQO0TpJ7SibtMK17s&printType=books&startIndex=0&maxResults=6&langRestrict=en';
 
+        const truncateText = (text, maxLenght) => {
+            if (text.length > maxLenght) {
+                return text.slice(0, maxLenght) + '...'
+            }
+
+            return text
+        }
+
+
         fetch(booksApi)
             .then(response => response.json())
 
@@ -54,7 +63,8 @@ window.addEventListener('load', () => {
 
                     innerContainer.appendChild(createElem('h3', book.volumeInfo.title, 'book__title'))
 
-                    innerContainer.appendChild(createElem('p', book.volumeInfo.description || 'No description', 'book__description'))
+                    const description = book.volumeInfo.description ? truncateText(book.volumeInfo.description, 87) : 'No description'
+                    innerContainer.appendChild(createElem('p', description, 'book__description'))
 
                     innerContainer.appendChild(createElem('h4', book.saleInfo.retailPrice ? book.saleInfo.retailPrice.amount + '' + book.saleInfo.retailPrice.currencyCode : 'No price', 'book__price'))
 
