@@ -39,7 +39,33 @@ window.addEventListener('load', () => {
                         className: className
                     })
 
-                    bookContainer.appendChild(createElem('h3', book.volumeInfo.title, 'book__title'))
+                    const imgContainer = document.createElement('div')
+                    imgContainer.classList.add('book__img')
+                    const imgSrc = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumnail : 'img.jpg'
+                    const bookImg = createElem('img', '', '')
+                    bookImg.src = imgSrc
+                    imgContainer.appendChild(bookImg)
+
+                    const innerContainer = document.createElement('div')
+                    innerContainer.classList.add('book__inner')
+
+                    const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : ''
+                    innerContainer.appendChild(createElem('h5', authors, 'book__authors'))
+
+                    innerContainer.appendChild(createElem('h3', book.volumeInfo.title, 'book__title'))
+
+                    innerContainer.appendChild(createElem('p', book.volumeInfo.description || 'No description', 'book__description'))
+
+                    innerContainer.appendChild(createElem('h4', book.saleInfo.retailPrice ? book.saleInfo.retailPrice.amount + '' + book.saleInfo.retailPrice.currencyCode : 'No price', 'book__price'))
+
+                    const saleAbility = book.saleInfo.saleability
+                    const saleAbilityBtnText = saleAbility === 'FOR_SALE' ? 'Buy now': saleAbility === 'FREE' ? 'free' :  'in the cart'
+                    const saleBtnStyles = saleAbility === 'FOR_SALE' ? 'book__button book__button_buy': saleAbility === 'FREE' ? 'book__button book__button_free' :  'book__button book__button_cart'
+                    const buyButton = createElem('button', saleAbilityBtnText, saleBtnStyles)
+                    innerContainer.appendChild(buyButton)
+
+                    bookContainer.appendChild(imgContainer)
+                    bookContainer.appendChild(innerContainer)
 
                     booksContainer.appendChild(bookContainer)
 
