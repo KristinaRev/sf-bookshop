@@ -27,7 +27,7 @@ window.addEventListener('load', () => {
             .then(data => {
                 console.log(data)
 
-                const booksContainer = document.querySelector('.shop__container')
+                const booksContainer = document.querySelector('.shop__books-container')
 
                 data.items.forEach(book => {
 

@@ -1,0 +1,53 @@
+@use '../abstracts/variables' as *
+@use '../abstracts/mixins' as *
+
+.shop
+  padding: 134px 0 74px
+
+  &__container
+    position: relative
+
+  &__category
+    background: $gray-light
+    padding: 45px 40px 81px 160px
+    width: 416px
+    display: flex
+    flex-direction: column
+    gap: 23px
+    align-items: flex-start
+    position: absolute
+    left: 0
+
+  &__category-btn
+    text-transform: capitalize
+    +font(15px, 15px, 500)
+    color: $gray
+    position: relative
+
+    &.active
+      +font(16px, 19px, 700)
+      color: $black
+
+      &:before
+        content: ''
+        width: 6px
+        height: 6px
+        border-radius: 50%
+        background: $purple
+        position: absolute
+        left: -14px
+        top: 4px
+
+    &:hover
+      color: $black
+
+  &__books-container
+    position: relative
+    z-index: 6
+    padding-top: 46px
+    width: 100%
+    display: flex
+    flex-wrap: wrap
+    column-gap: 76px
+    row-gap: 96px
+    justify-content: flex-end
