@@ -22,9 +22,11 @@ window.addEventListener('load', () => {
         const key = 'AIzaSyBJze3ZHSv24m5POOMQO0TpJ7SibtMK17s'
         const booksPerPage = 6;
         let startIndex = 0;
+        let currentCategory = 'Architecture';
 
         const booksContainer = document.querySelector('.shop__books-container');
         const loadButton = document.querySelector('.shop__load-button');
+        const categoryButtons = document.querySelectorAll('.shop__category-btn');
 
         const truncateText = (text, maxLength) => {
             if (text.length > maxLength) {
@@ -33,13 +35,14 @@ window.addEventListener('load', () => {
             return text;
         };
 
-        const fetchBooks = () => {
-            const booksApi = `https://www.googleapis.com/books/v1/volumes?q="subject:Business"&key=${key}&printType=books&startIndex=${startIndex}&maxResults=${booksPerPage}&langRestrict=en`;
+        const fetchBooks = (category) => {
+            const booksApi = `https://www.googleapis.com/books/v1/volumes?q="subject:${category}"&key=${key}&printType=books&startIndex=${startIndex}&maxResults=${booksPerPage}&langRestrict=en`;
 
             fetch(booksApi)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    booksContainer.innerHTML = ''
 
                     data.items.forEach(book => {
                         const bookContainer = document.createElement('div');
@@ -86,11 +89,24 @@ window.addEventListener('load', () => {
                 .catch(error => console.error('Ошибка при запросе:', error));
         };
 
-        fetchBooks();
+        fetchBooks(currentCategory);
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Обновляем текущую категорию и загружаем соответствующие книги
+                currentCategory = button.textContent.trim();
+                startIndex = 0;
+                fetchBooks(currentCategory);
+            });
+        });
 
         loadButton.addEventListener('click', () => {
             startIndex += booksPerPage; // Увеличиваем startIndex для запроса следующей страницы
-            fetchBooks();
+            fetchBooks(currentCategory);
         });
 
     }
