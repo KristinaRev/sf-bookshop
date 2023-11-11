@@ -20,7 +20,7 @@ window.addEventListener('load', () => {
         });
 
         const key = 'AIzaSyBJze3ZHSv24m5POOMQO0TpJ7SibtMK17s'
-        const booksPerPage = 6;
+        let booksPerPage = 6;
         let startIndex = 0;
         let currentCategory = 'Architecture';
 
@@ -101,13 +101,12 @@ window.addEventListener('load', () => {
 
                 // Обновляем текущую категорию и загружаем соответствующие книги
                 currentCategory = button.textContent.trim();
-                startIndex = 0;
                 fetchBooks(currentCategory);
             });
         });
 
         loadButton.addEventListener('click', () => {
-            startIndex += booksPerPage; // Увеличиваем startIndex для запроса следующей страницы
+            booksPerPage += 6;
             fetchBooks(currentCategory);
         });
 
