@@ -23,6 +23,7 @@
     +font(15px, 15px, 500)
     color: $gray
     position: relative
+    transition: color .3s ease, font-size .3s ease
 
     &.active
       +font(16px, 19px, 700)
@@ -36,7 +37,8 @@
         background: $purple
         position: absolute
         left: -14px
-        top: 4px
+        top: 5px
+        transition: width .3s ease, height .3s ease
 
     &:hover
       color: $black

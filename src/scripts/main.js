@@ -66,7 +66,9 @@ window.addEventListener('load', () => {
                         innerContainer.classList.add('book__inner');
 
                         const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : '';
-                        innerContainer.appendChild(createElem('h5', authors, 'book__authors'));
+                        const truncateAuthors = book.volumeInfo.authors ? truncateText(authors, 25) : 'Unknown author';
+                        innerContainer.appendChild(createElem('h5', truncateAuthors, 'book__authors'));
+
                         innerContainer.appendChild(createElem('h3', book.volumeInfo.title, 'book__title'));
 
                         const description = book.volumeInfo.description ? truncateText(book.volumeInfo.description, 87) : 'No description';
