@@ -19,69 +19,79 @@ window.addEventListener('load', () => {
             },
         });
 
-        const booksApi = 'https://www.googleapis.com/books/v1/volumes?q="subject:Business"&key=AIzaSyBJze3ZHSv24m5POOMQO0TpJ7SibtMK17s&printType=books&startIndex=0&maxResults=6&langRestrict=en';
+        const key = 'AIzaSyBJze3ZHSv24m5POOMQO0TpJ7SibtMK17s'
+        const booksPerPage = 6;
+        let startIndex = 0;
 
-        const truncateText = (text, maxLenght) => {
-            if (text.length > maxLenght) {
-                return text.slice(0, maxLenght) + '...'
+        const booksContainer = document.querySelector('.shop__books-container');
+        const loadButton = document.querySelector('.shop__load-button');
+
+        const truncateText = (text, maxLength) => {
+            if (text.length > maxLength) {
+                return text.slice(0, maxLength) + '...';
             }
+            return text;
+        };
 
-            return text
-        }
+        const fetchBooks = () => {
+            const booksApi = `https://www.googleapis.com/books/v1/volumes?q="subject:Business"&key=${key}&printType=books&startIndex=${startIndex}&maxResults=${booksPerPage}&langRestrict=en`;
 
+            fetch(booksApi)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
 
-        fetch(booksApi)
-            .then(response => response.json())
+                    data.items.forEach(book => {
+                        const bookContainer = document.createElement('div');
+                        bookContainer.className = 'book';
 
-            .then(data => {
-                console.log(data)
+                        const createElem = (tag, text, className) => {
+                            const element = document.createElement(tag);
+                            element.textContent = text;
+                            element.className = className;
+                            return element;
+                        };
 
-                const booksContainer = document.querySelector('.shop__books-container')
+                        const imgContainer = document.createElement('div');
+                        imgContainer.classList.add('book__img');
+                        const imgSrc = book.volumeInfo.imageLinks;
+                        const bookImg = book.volumeInfo.imageLinks ? createElem('img', '', '') : createElem('span', 'No image', 'book__img-text');
+                        bookImg.src = imgSrc;
+                        imgContainer.appendChild(bookImg);
 
-                data.items.forEach(book => {
+                        const innerContainer = document.createElement('div');
+                        innerContainer.classList.add('book__inner');
 
-                    const bookContainer = Object.assign(document.createElement('div'),  {
-                        className: 'book'
-                    })
-                    const createElem = (tag, text, className) => Object.assign(document.createElement(tag), {
-                        textContent: text,
-                        className: className
-                    })
+                        const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : '';
+                        innerContainer.appendChild(createElem('h5', authors, 'book__authors'));
+                        innerContainer.appendChild(createElem('h3', book.volumeInfo.title, 'book__title'));
 
-                    const imgContainer = document.createElement('div')
-                    imgContainer.classList.add('book__img')
-                    const imgSrc = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumnail : 'img.jpg'
-                    const bookImg = createElem('img', '', '')
-                    bookImg.src = imgSrc
-                    imgContainer.appendChild(bookImg)
+                        const description = book.volumeInfo.description ? truncateText(book.volumeInfo.description, 87) : 'No description';
+                        innerContainer.appendChild(createElem('p', description, 'book__description'));
 
-                    const innerContainer = document.createElement('div')
-                    innerContainer.classList.add('book__inner')
+                        innerContainer.appendChild(createElem('h4', book.saleInfo.retailPrice ? book.saleInfo.retailPrice.amount + ' ' + book.saleInfo.retailPrice.currencyCode : 'No price', 'book__price'));
 
-                    const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : ''
-                    innerContainer.appendChild(createElem('h5', authors, 'book__authors'))
+                        const saleAbility = book.saleInfo.saleability;
+                        const saleAbilityBtnText = saleAbility === 'FOR_SALE' ? 'Buy now' : saleAbility === 'FREE' ? 'Free' : 'In the cart';
+                        const saleBtnStyles = saleAbility === 'FOR_SALE' ? 'book__button book__button_buy' : saleAbility === 'FREE' ? 'book__button book__button_free' : 'book__button book__button_cart';
+                        const buyButton = createElem('button', saleAbilityBtnText, saleBtnStyles);
+                        innerContainer.appendChild(buyButton);
 
-                    innerContainer.appendChild(createElem('h3', book.volumeInfo.title, 'book__title'))
+                        bookContainer.appendChild(imgContainer);
+                        bookContainer.appendChild(innerContainer);
 
-                    const description = book.volumeInfo.description ? truncateText(book.volumeInfo.description, 87) : 'No description'
-                    innerContainer.appendChild(createElem('p', description, 'book__description'))
-
-                    innerContainer.appendChild(createElem('h4', book.saleInfo.retailPrice ? book.saleInfo.retailPrice.amount + '' + book.saleInfo.retailPrice.currencyCode : 'No price', 'book__price'))
-
-                    const saleAbility = book.saleInfo.saleability
-                    const saleAbilityBtnText = saleAbility === 'FOR_SALE' ? 'Buy now': saleAbility === 'FREE' ? 'free' :  'in the cart'
-                    const saleBtnStyles = saleAbility === 'FOR_SALE' ? 'book__button book__button_buy': saleAbility === 'FREE' ? 'book__button book__button_free' :  'book__button book__button_cart'
-                    const buyButton = createElem('button', saleAbilityBtnText, saleBtnStyles)
-                    innerContainer.appendChild(buyButton)
-
-                    bookContainer.appendChild(imgContainer)
-                    bookContainer.appendChild(innerContainer)
-
-                    booksContainer.appendChild(bookContainer)
-
+                        booksContainer.appendChild(bookContainer);
+                    });
                 })
-            })
-            .catch(error => console.error('Ошибка при запросе:', error))
+                .catch(error => console.error('Ошибка при запросе:', error));
+        };
+
+        fetchBooks();
+
+        loadButton.addEventListener('click', () => {
+            startIndex += booksPerPage; // Увеличиваем startIndex для запроса следующей страницы
+            fetchBooks();
+        });
 
     }
 })
