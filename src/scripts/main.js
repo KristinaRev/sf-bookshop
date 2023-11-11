@@ -100,6 +100,7 @@ window.addEventListener('load', () => {
                 button.classList.add('active');
 
                 // Обновляем текущую категорию и загружаем соответствующие книги
+                booksPerPage = 6;
                 currentCategory = button.textContent.trim();
                 fetchBooks(currentCategory);
             });
