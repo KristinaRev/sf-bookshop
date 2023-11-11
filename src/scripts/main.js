@@ -54,8 +54,8 @@ window.addEventListener('load', () => {
 
                         const imgContainer = document.createElement('div');
                         imgContainer.classList.add('book__img');
-                        const imgSrc = book.volumeInfo.imageLinks;
-                        const bookImg = book.volumeInfo.imageLinks ? createElem('img', '', '') : createElem('span', 'No image', 'book__img-text');
+                        const imgSrc = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
+                        const bookImg = book.volumeInfo.imageLinks? createElem('img', '', '') : createElem('span', 'No image', 'book__img-text');
                         bookImg.src = imgSrc;
                         imgContainer.appendChild(bookImg);
 
